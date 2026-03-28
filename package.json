@@ -1,0 +1,38 @@
+{
+  "name": "kambaz-node-server-app",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Node.js HTTP Web server for the Kambaz application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LOTaher/kambaz-node-server-app.git"
+  },
+  "keywords": [
+    "Node",
+    "REST",
+    "Server",
+    "HTTP",
+    "Web",
+    "Development",
+    "CS5610",
+    "CS4550"
+  ],
+  "author": "Laith Taher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LOTaher/kambaz-node-server-app/issues"
+  },
+  "homepage": "https://github.com/LOTaher/kambaz-node-server-app#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "uuid": "^13.0.0"
+  }
+}
