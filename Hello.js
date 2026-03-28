@@ -5,6 +5,7 @@ export default function Hello(app) {
   const sayWelcome = (req, res) => {
     res.send("Welcome to Full Stack Development!");
   };
+
   app.get("/hello", sayHello);
   app.get("/", sayWelcome);
 }
