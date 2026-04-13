@@ -1,46 +1,31 @@
-import { v4 as uuidv4 } from "uuid";
-
+import model from "./model.js";
 export default function EnrollmentsDao(db) {
-  function findAllEnrollments() {
-    return db.enrollments;
+  async function findCoursesForUser(userId) {
+    const enrollments = await model.find({ user: userId }).populate("course");
+    return enrollments.map((enrollment) => enrollment.course);
   }
-
-  function findEnrollmentsForUser(userId) {
-    return db.enrollments.filter((enrollment) => enrollment.user === userId);
+  async function findUsersForCourse(courseId) {
+    const enrollments = await model.find({ course: courseId }).populate("user");
+    return enrollments.map((enrollment) => enrollment.user);
   }
-
-  function findEnrollmentsForCourse(courseId) {
-    return db.enrollments.filter(
-      (enrollment) => enrollment.course === courseId,
-    );
-  }
-
   function enrollUserInCourse(userId, courseId) {
-    const newEnrollment = { _id: uuidv4(), user: userId, course: courseId };
-    db.enrollments.push(newEnrollment);
-    return newEnrollment;
+    return model.create({
+      user: userId,
+      course: courseId,
+      _id: `${userId}-${courseId}`,
+    });
   }
-
-  function unenrollUserFromCourse(userId, courseId) {
-    db.enrollments = db.enrollments.filter(
-      (enrollment) =>
-        !(enrollment.user === userId && enrollment.course === courseId),
-    );
+  function unenrollUserFromCourse(user, course) {
+    return model.deleteOne({ user, course });
   }
-
-  function isUserEnrolledInCourse(userId, courseId) {
-    return db.enrollments.some(
-      (enrollment) =>
-        enrollment.user === userId && enrollment.course === courseId,
-    );
+  function unenrollAllUsersFromCourse(courseId) {
+    return model.deleteMany({ course: courseId });
   }
-
   return {
-    findAllEnrollments,
-    findEnrollmentsForUser,
-    findEnrollmentsForCourse,
+    findCoursesForUser,
+    findUsersForCourse,
     enrollUserInCourse,
     unenrollUserFromCourse,
-    isUserEnrolledInCourse,
+    unenrollAllUsersFromCourse,
   };
 }
